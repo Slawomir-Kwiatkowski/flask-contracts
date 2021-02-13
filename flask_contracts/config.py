@@ -1,3 +1,4 @@
+# import os
 class Config:
     ''' Development Config class'''
 
@@ -8,6 +9,7 @@ class Config:
 
 class ConfigProduction(Config):
     ''' Prodction Config class'''
+    # SECRET_KEY = os.environ('SECRET_KEY')
     ENV = 'prod'
     DEBUG = False
 

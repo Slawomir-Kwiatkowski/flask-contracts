@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="columns is-centered">
+        <div class="column is-4">
+            <div class="box has-background-light">
+                <p class="title has-text-info is-2">
+                    Sign Up
+                    <span class="icon is-pulled-right">
+                        <i class="fas fa-lg mt-4 mr-4 fa-user-plus"></i>
+                    </span>
+                </p>
+                <form method="POST" action="">
+                    <div>
+                        {{ form.username.label(class="label is-medium pt-2") }}
+                        <div class="control has-icons-left">
+                            <span class="icon">
+                                <i class="fas fa-user"></i>
+                            </span>
+                            {{ form.username(class="input has-icon-left") }}
+                        </div>
+                    </div>
+                    <div>
+                        {{ form.email.label(class="label is-medium pt-2") }}
+                        <div class="control has-icons-left">
+                            <span class="icon">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                            {{ form.email(class="input has-icon-left") }}
+                        </div>
+                    </div>
+                    <div>
+                        {{ form.password.label(class="label is-medium pt-2") }}
+                        <div class="control has-icons-left">
+                            <span class="icon">
+                                <i class="fas fa-key"></i>
+                            </span>
+                            {{ form.password(class="input has-icon-left") }}
+                        </div>
+                    </div>
+                    <div>
+                        {{ form.confirm_password.label(class="label is-medium pt-2") }}
+                        <div class="control has-icons-left">
+                            <span class="icon">
+                                <i class="fas fa-key"></i>
+                            </span>
+                            {{ form.confirm_password(class="input has-icon-left") }}
+                        </div>
+                    </div>
+                    <div>
+                        {{ form.submit(class="button is primary mt-6 is-info") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
