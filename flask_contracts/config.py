@@ -8,8 +8,8 @@ class Config:
 
 class ConfigProduction(Config):
     ''' Prodction Config class'''
-    DEBUG = False
     ENV = 'prod'
+    DEBUG = False
 
 
 class ConfigTesting(Config):

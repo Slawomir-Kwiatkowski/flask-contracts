@@ -7,8 +7,6 @@ def create_app(config_class):
     app.config.from_object(config_class)
 
     # # Register blueprints here
-    # from .auth import auth
-    # app.register_blueprint(auth.bp)
     from .auth import auth
     app.register_blueprint(auth.bp)
     
