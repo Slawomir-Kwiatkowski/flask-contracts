@@ -16,8 +16,11 @@
   <body>
     <nav class="navbar is-light" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
-        <a class="navbar-item" href="https://bulma.io">
-          <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+        <a class="navbar-item" href="http://slawomirkwiatkowski.pl">
+          <span class="icon ml-2 mr-2">
+            <i class="fas fa-cloud fa-2x has-text-info"></i>
+          </span>
+          <!-- <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28"> -->
         </a>
     
         <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -29,7 +32,7 @@
     
       <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
-          <a class="navbar-item">
+          <a class="navbar-item" href="{{ url_for('main.index') }}">
             Home
           </a>
     
@@ -61,6 +64,26 @@
         </div>
     
         <div class="navbar-end">
+          {% if current_user.is_authenticated %}
+            <div class="navbar-item has-dropdown is-hoverable pr-6">
+              <a class="navbar-link">
+                User
+              </a>
+      
+              <div class="navbar-dropdown">
+                <a class="navbar-item">
+                  Change password
+                </a>
+                <a class="navbar-item">
+                  Add logo
+                </a>
+                <hr class="navbar-divider"> 
+                <a class="navbar-item" href="{{ url_for('auth.logout') }}">
+                  Sign out
+                </a>
+              </div>
+            </div>
+          {% else %}
           <div class="navbar-item">
             <div class="buttons">
               <a class="button is-light" href="{{ url_for('auth.register') }}">
@@ -71,11 +94,23 @@
               </a>
             </div>
           </div>
+          {% endif %}
         </div>
       </div>
     </nav>
   <section class="section">
     <div class="container">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul class=flashes>
+            {% for category, message in messages %}
+              <li class="notification is-light is-{{category}}">
+                  <strong>{{ message }}</strong>
+              </li>
+            {% endfor %}
+          </ul></br>
+      {% endif %}
+      {% endwith %}
       {% block content %}
       {% endblock %}
     </div>

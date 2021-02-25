@@ -4,20 +4,30 @@
     <div class="columns is-centered">
         <div class="column is-4">
             <div class="box has-background-light">
-                <p class="title has-text-info is-2">
+                <p class="title has-text-info is-3">
                     Log In
                     <span class="icon is-pulled-right">
                         <i class="fas fa-lg mt-4 mr-4 fa-user"></i>
                     </span>
                 </p>
                 <form method="POST" action="">
+                    {{ form.hidden_tag() }}
                     <div>
                         {{ form.username.label(class="label is-medium pt-2") }}
                         <div class="control has-icons-left">
                             <span class="icon">
                                 <i class="fas fa-user"></i>
                             </span>
-                            {{ form.username(class="input has-icon-left") }}
+                            {% if form.username.errors %}
+                                {{ form.username(class="input has-icon-left is-danger") }}
+                                <div class="help is-danger">
+                                    {% for error in form.username.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.username(class="input has-icon-left") }}
+                            {% endif %} 
                         </div>
                     </div>
                     <div>
@@ -29,12 +39,16 @@
                             {{ form.password(class="input has-icon-left") }}
                         </div>
                     </div>
-                    <div>
+                    <div class="control">
                         {{ form.log_out(class="checkbox mt-4") }}
-                        {{ form.log_out.label(class="") }}
+                        {{ form.log_out.label(class="checkbox") }}
                     </div>
                     <div>
                         {{ form.submit(class="button is-info mt-4") }}
+                    </div>
+                    <div class="pt-4 has-text-link has-text-right">
+                        <a href="{{ url_for('auth.forgot_credentials') }}">
+                            Forgot username or password?</a>
                     </div>
                 </form>
             </div>
