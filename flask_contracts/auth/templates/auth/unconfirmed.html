@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="columns is-centered">
+        <div class="column is-4">
+            <div class="box has-background-light">
+                <p class="title has-text-info is-3">
+                    Unconfirmed Account
+                    <span class="icon is-pulled-right">
+                        <i class="fas fa-lg mt-4 mr-4 fa-user-edit"></i>
+                    </span>
+                </p>
+                <p class="is-size-5 pt-4">
+                    First, activate your account using the link
+                     sent to your email during registration.
+                </p>
+                <p class="is-size-5 pt-4">
+                    If you still can’t find the verification email or
+                    the activation link is expired, click
+                    <a href="{{ url_for('auth.resend') }}">resend</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

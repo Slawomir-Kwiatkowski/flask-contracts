@@ -77,9 +77,8 @@
   </tr>
   <tr>
     <td>
-        <a class="undecorated" href="{{ url_for('auth.confirm_account', token=token, _external=True) }}">
-            <button class="button-blue">Confirm account</button>
-        </a>
+        {% block msg_button %}
+        {% endblock %}
     </td>
   </tr>
   <tr>
@@ -87,7 +86,8 @@
       <small>
     	<p>If you’re having trouble clicking the button, copy and paste 
             the URL below into your web browser.</p>
-        <p>{{ url_for('auth.confirm_account', token=token, _external=True) }}</p>
+            {% block msg_confirm_link %}
+            {% endblock %}
       </small>  
     </td>
   </tr>

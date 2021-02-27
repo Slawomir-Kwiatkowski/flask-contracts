@@ -7,7 +7,7 @@ from is_safe_url import is_safe_url
 from .models import User
 from .forms import (UserRegisterForm,
                     UserLoginForm,
-                    UserForgotCredentials,
+                    UserEmailForm,
                     UserChangePasswordForm
                     )
 from .utils.utils import generate_token, check_token, send_email
@@ -23,14 +23,12 @@ def register():
     if form.validate_on_submit():
         hashed = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(username=form.username.data, email=form.email.data, password=hashed)
-        token = generate_token(user.email)
-        send_email(user.email, token, category='confirm_account')
-        _, timestamp = check_token(token)
+        timestamp = send_email(user.email, category='confirm_account')
         user.token_timestamp = timestamp
-        flash(f'Account created for {user.username}. A confirmation email has been sent.', category='success')
         db.session.add(user)
         db.session.commit()
-        return redirect(url_for('auth.login'))
+        flash(f'Account created for {user.username}. A confirmation email has been sent.', category='success')
+        return redirect(url_for('main.index'))
     return render_template('registration.html', title='Register', form=form)
 
 
@@ -41,8 +39,8 @@ def login():
     form = UserLoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        if not user.is_active : return redirect(url_for('auth.unconfirmed_account'))
         if user and bcrypt.check_password_hash(user.password, form.password.data):
+            if not user.is_active: return render_template('unconfirmed.html', title='Unconfirmed')
             login_user(user, remember=(not(form.log_out.data)))
             flash(f'Welcome: {user.username}!', 'success')
             next_param = request.args.get('next')
@@ -53,7 +51,7 @@ def login():
             return redirect(next_param or url_for('main.index'))
         else:
             flash('Bad credentials.', 'danger')
-    return render_template('login.html', title='Register', form=form)
+    return render_template('login.html', title='Login', form=form)
 
 @bp.route('/logout')
 def logout():
@@ -64,39 +62,76 @@ def logout():
 
 @bp.route('/confirm-account/<token>')
 def confirm_account(token):
-    email, timestamp = check_token(token)
-    user = User.query.filter_by(email=str(email)).first()
-    user.is_active = True
-    user.confirm_date = datetime.utcnow()
-    db.session.add(user)
-    db.session.commit()
-    flash('Your account is now activated.', 'success')
-    return redirect(url_for('auth.login'))
+    if check_token(token): 
+        email, timestamp = check_token(token)
+        user = User.query.filter_by(email=str(email)).first()
+        if user.token_timestamp == timestamp:
+            user.is_active = True
+            user.confirm_date = datetime.utcnow()
+            db.session.add(user)
+            db.session.commit()
+            flash('Your account is now activated.', 'success')
+            return redirect(url_for('auth.login'))
+        else:
+            flash('Invalid token.', 'warning')
+            return render_template('unconfirmed.html', title='Unconfirmed')
+    else:
+        flash('Invalid or expired token.', 'warning')
+        return render_template('unconfirmed.html', title='Unconfirmed')
 
-@bp.route('/unonfirmed')
-def unconfirmed_account():
-    return 'Your account requires confirmation'
 
+@bp.route('/resend-activation', methods=['GET', 'POST'])
+def resend():
+    form = UserEmailForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            timestamp = send_email(user.email, category='confirm_account')
+            user.token_timestamp = timestamp
+            db.session.add(user)
+            db.session.commit()
+        flash('A confirmation email has been sent.', category='success') #safety reasons
+        # The above flash msg will be displayed if user is or is not registered
+        return redirect(url_for('main.index'))
+    return render_template('resend_confirmation.html', title='Resend', form=form)
+        
+
+    
 @bp.route('/forgot-credentials', methods=['GET', 'POST'])
 def forgot_credentials():
-    form = UserForgotCredentials()
+    form = UserEmailForm()
     if form.validate_on_submit():
-        flash('An e-mail was sent to the address provided.', category='info')
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            timestamp = send_email(user.email, category='forgot_credentials')
+            user.token_timestamp = timestamp
+            db.session.add(user)
+            db.session.commit()
+        flash('An email has been sent with link to change credentials.', category='success') #safety reasons
+        # The above flash msg will be displayed if user is or is not registered
         return redirect(url_for('main.index'))
-    return render_template('forgot-credentials.html', title='Forgot Credentials', form=form)
+    return render_template('forgot_credentials.html', title='Forgot Credentials', form=form)
 
-@bp.route('/change-password')
-def change_password():
-    if current_user.is_active:
-        return 'active'
-    else:
-        return 'inactive'
-    # form = UserRegisterForm()
-    # if form.validate_on_submit():
-    #     hashed = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-    #     user = User(username=form.username.data, email=form.email.data, password=hashed)
-    #     db.session.add(user)
-    #     db.session.commit()
-    #     flash(f'Account created for {form.username.data}. You can sign in now.', category='success')
-    #     return redirect(url_for('auth.login'))
-    # return redirect(url_for('main.index'))
+
+
+@bp.route('/change-password/<token>', methods=['GET', 'POST'])
+def change_password(token):
+    if not check_token(token):
+        flash('Bad token', category='warning')
+        return redirect('main.index')
+    email, timestamp = check_token(token)
+    user = User.query.filter_by(email=str(email)).first()
+    form = UserChangePasswordForm()
+    if form.validate_on_submit():
+        if user.token_timestamp == timestamp:
+            hashed = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+            user.password = hashed
+            if not user.is_active:
+                user.is_active = True
+                user.confirm_date = datetime.utcnow()
+            db.session.add(user)
+            db.session.commit()
+            flash(f'Password changed.', category='success')
+            return redirect(url_for('auth.login'))
+    return render_template('reset_password.html', 
+                title='Password Reset', username=user.username, form=form)

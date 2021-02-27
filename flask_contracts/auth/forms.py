@@ -28,8 +28,12 @@ class UserRegisterForm(UserLoginForm):
             if User.query.filter_by(username=username.data).first():
                     raise ValidationError('This username is already taken.')
 
+    def validate_email(self, email):
+            if User.query.filter_by(email=email.data).first():
+                    raise ValidationError('This email is already taken.')
 
-class UserForgotCredentials(FlaskForm):
+
+class UserEmailForm(FlaskForm):
         email = EmailField('Email',
             validators=[DataRequired(), Email()],
             description='Enter your email')
@@ -37,9 +41,6 @@ class UserForgotCredentials(FlaskForm):
 
 
 class UserChangePasswordForm(FlaskForm):
-        username = StringField('username',
-            validators=[DataRequired(), Length(min=2, max=10)],
-            description='Enter your username')
         password = PasswordField('Password',
             validators=[DataRequired()],
             description='Enter your password')

@@ -1,5 +1,17 @@
-<p>Welcome!  Please click the button to activate your account:</p>
-<button></button>
-<p>Thanks for signing up.</p>
-<p>Contracts Team</p>
+{% extends "base_email.html" %}
 
+{% block msg_body %}
+    <p class="p1">Welcome!</p>
+    <p> Thanks for signing up. First you need to confirm your account. 
+        Just press the button below.</p>
+{% endblock %}
+{% block msg_button %}
+    <a class="undecorated" href="{{ url_for('auth.confirm_account', token=token, _external=True) }}">
+        <button class="button-blue">Confirm account</button>
+    </a>
+{% endblock %}
+{% block msg_confirm_link %}
+    <p>
+        {{ url_for('auth.confirm_account', token=token, _external=True) }}
+    </p>
+{% endblock %}
