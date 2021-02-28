@@ -131,7 +131,22 @@ def change_password(token):
                 user.confirm_date = datetime.utcnow()
             db.session.add(user)
             db.session.commit()
-            flash(f'Password changed.', category='success')
+            flash('Password changed.', category='success')
             return redirect(url_for('auth.login'))
-    return render_template('reset_password.html', 
+    return render_template('change_password.html', 
                 title='Password Reset', username=user.username, form=form)
+
+@bp.route('/change-password', methods=['GET', 'POST'])
+@login_required
+def change_pass():
+    form = UserChangePasswordForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=current_user.username).first()
+        hashed = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user.password = hashed
+        db.session.add(user)
+        db.session.commit()
+        flash('Password changed.', category='success')
+        return redirect(url_for('main.index'))
+    return render_template('change_password.html', 
+            title='Password Reset', username=current_user.username, form=form)
