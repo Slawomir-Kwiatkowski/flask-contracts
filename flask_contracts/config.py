@@ -29,6 +29,7 @@ class ConfigTesting(Config):
     '''Testing Config class'''
     SECRET_KEY = 'dev'
     ENV = 'test'
-    DEBUG = True
+    DEBUG = False
+    TESTING = True
     SQLALCHEMY_DATABASE_URI = 'file::memory:?cache=shared'
     SQLALCHEMY_TRACK_MODIFICATIONS = False

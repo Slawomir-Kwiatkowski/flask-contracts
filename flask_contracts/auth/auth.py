@@ -12,7 +12,8 @@ from .forms import (UserRegisterForm,
                     )
 from .utils.utils import generate_token, check_token, send_email
 
-bp = Blueprint('auth', __name__, url_prefix='/auth', template_folder='templates/auth')
+bp = Blueprint('auth', __name__, url_prefix='/auth',
+        template_folder='templates/auth', static_folder='static')
 
 
 @bp.route('/register', methods=['GET', 'POST'])

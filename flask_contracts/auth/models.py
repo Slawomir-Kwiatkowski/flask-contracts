@@ -15,7 +15,7 @@ class User(db.Model, UserMixin):
     is_active = db.Column(db.Boolean, nullable=False, default=False)
     confirm_date = db.Column(db.DateTime, nullable=True)
     admin = db.Column(db.Boolean, nullable=False, default=False)
-    token_timestamp = db.Column(db.String(19))
+    token_timestamp = db.Column(db.String(19), nullable=True)
     
 
 
