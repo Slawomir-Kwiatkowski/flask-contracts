@@ -13,6 +13,23 @@
                 <form method="POST" action="">
                     {{ form.hidden_tag() }}
                     <div>
+                        {{ form.role.label(class="label is-medium pt-2") }}
+                        <div class="control select has-icons-left">
+                            <span class="icon">
+                                <i class="fas fa-user-tag"></i>
+                            </span>
+                            {% if form.role.errors %}
+                                {{ form.username(class="input has-icon-left is-danger") }}
+                                <div class="help is-danger">
+                                    {% for error in form.username.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.role(class="select has-icon-left pl-6 ") }}
+                            {% endif %}
+                        </div>
+                    <div>
                         {{ form.username.label(class="label is-medium pt-2") }}
                         <div class="control has-icons-left">
                             <span class="icon">

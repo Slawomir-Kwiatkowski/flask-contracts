@@ -10,7 +10,7 @@ class Config:
 
     FORCE_HOST_FOR_REDIRECTS = 'localhost:5000'
 
-    MAIL_SERVER = 'smtp.gmail.com'
+    MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.environ.get('EMAIL_USER')

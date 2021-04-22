@@ -23,7 +23,7 @@ def register():
     form = UserRegisterForm()
     if form.validate_on_submit():
         hashed = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, email=form.email.data, password=hashed)
+        user = User(role=form.role.data, username=form.username.data, email=form.email.data, password=hashed)
         timestamp = send_email(user.email, category='confirm_account')
         user.token_timestamp = timestamp
         db.session.add(user)

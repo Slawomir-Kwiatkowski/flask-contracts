@@ -1,11 +1,11 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
-from wtforms.fields.html5 import EmailField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField
+from wtforms.fields.html5 import EmailField, DateField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError
 from flask_contracts.auth.models import User
 
 class UserLoginForm(FlaskForm):
-    username = StringField('username',
+    username = StringField('Username',
             validators=[DataRequired(), Length(min=2, max=10)],
             description='Enter your username')
     password = PasswordField('Password',
@@ -14,14 +14,18 @@ class UserLoginForm(FlaskForm):
     log_out = BooleanField('Log Me Out After', default=False)
     submit = SubmitField('Sign In')
 
-    
+
 class UserRegisterForm(UserLoginForm):
+#     date_reg = DateField('Date', validators=[DataRequired()])
+#     contractorsID = SelectField('Contractors', coerce=int)
     email = EmailField('Email',
             validators=[DataRequired(), Email()],
             description='Enter your email')
     confirm_password = PasswordField('Confirm password',
             validators=[DataRequired(), EqualTo('password')],
             description='Confirm your password')
+    role = SelectField('Role',
+     choices=[('contractor', 'contractor'), ('customer', 'customer')])
     submit = SubmitField('Sign Up')
     
     def validate_username(self, username):

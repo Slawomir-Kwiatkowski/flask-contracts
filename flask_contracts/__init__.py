@@ -1,5 +1,4 @@
-from flask import (Flask, Blueprint, url_for, current_app
-)
+from flask import (Flask, Blueprint, url_for, current_app)
 from .config import *   # Config classes
 from flask_fontawesome import FontAwesome
 from flask_sqlalchemy import SQLAlchemy
@@ -36,9 +35,11 @@ def create_app(config_class):
     from . import flask_contracts
     from .auth import auth
     from .auth.utils import utils
+    from .contracts import contracts
     app.register_blueprint(flask_contracts.bp)
     app.register_blueprint(auth.bp)
     app.register_blueprint(utils.bp)
+    app.register_blueprint(contracts.bp)
     
     return app
 
