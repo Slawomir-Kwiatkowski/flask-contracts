@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="columns is-centered">
+        <div class="column is-4">
+            <div class="box has-background-light">
+                <p class="title has-text-info is-3">
+                    Sign Up
+                    <span class="icon is-pulled-right">
+                        <i class="fas fa-lg mt-4 mr-4 fa-user-plus"></i>
+                    </span>
+                </p>
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    <div>
+                        {{ form.contractorsID(class="select control has-icon-left pl-6 ") }}
+                    </div>
+                    <div>
+                        {{ form.date_reg(class="select has-icon-left pl-6 ") }}
+                    </div>
+
+
+                    <div>
+                        {{ form.role.label(class="label is-medium pt-2") }}
+                        <div class="control select has-icons-left">
+                            <span class="icon">
+                                <i class="fas fa-user-tag"></i>
+                            </span>
+                            {% if form.role.errors %}
+                                {{ form.username(class="input has-icon-left is-danger") }}
+                                <div class="help is-danger">
+                                    {% for error in form.username.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.role(class="select has-icon-left pl-6 ") }}
+                            {% endif %}
+                        </div>
+                    <div>
+                        {{ form.username.label(class="label is-medium pt-2") }}
+                        <div class="control has-icons-left">
+                            <span class="icon">
+                                <i class="fas fa-user"></i>
+                            </span>
+                            {% if form.username.errors %}
+                                {{ form.username(class="input has-icon-left is-danger") }}
+                                <div class="help is-danger">
+                                    {% for error in form.username.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.username(class="input has-icon-left") }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div>
+                        {{ form.email.label(class="label is-medium pt-2") }}
+                        <div class="control has-icons-left">
+                            <span class="icon">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                            {% if form.email.errors %}
+                                {{ form.email(class="input has-icon-left is-danger") }}
+                                <div class="help is-danger">
+                                    {% for error in form.email.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.email(class="input has-icon-left") }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div>
+                        {{ form.password.label(class="label is-medium pt-2") }}
+                        <div class="control has-icons-left">
+                            <span class="icon">
+                                <i class="fas fa-key"></i>
+                            </span>
+                            {% if form.password.errors %}
+                                {{ form.password(class="input has-icon-left is-danger") }}
+                                <div class="help is-danger">
+                                    {% for error in form.password.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.password(class="input has-icon-left") }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div>
+                        {{ form.confirm_password.label(class="label is-medium pt-2") }}
+                        <div class="control has-icons-left">
+                            <span class="icon">
+                                <i class="fas fa-key"></i>
+                            </span>
+                            {% if form.confirm_password.errors %}
+                                {{ form.confirm_password(class="input has-icon-left is-danger") }}
+                                <div class="help is-danger">
+                                    {% for error in form.confirm_password.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.confirm_password(class="input has-icon-left") }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div>
+                        {{ form.submit(class="button is primary mt-6 is-info") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
