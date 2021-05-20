@@ -16,8 +16,6 @@ class UserLoginForm(FlaskForm):
 
 
 class UserRegisterForm(UserLoginForm):
-#     date_reg = DateField('Date', validators=[DataRequired()])
-#     contractorsID = SelectField('Contractors', coerce=int)
     email = EmailField('Email',
             validators=[DataRequired(), Email()],
             description='Enter your email')

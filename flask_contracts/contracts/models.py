@@ -15,3 +15,14 @@ class Contract(db.Model):
     pallets = db.Column(db.Integer, nullable=False)
     pallet_position = db.Column(db.Integer, nullable=False)
     warehouse = db.Column(db.String(10), nullable=False)
+    
+
+# class Booking(db.Model):
+#     '''Model of booking for a contract'''
+    
+#     id = db.Column(db.Integer, primary_key=True)
+#     id_contract = db.Column(db.Integer, db.ForeignKey(contract.id), nullable=False)
+#     driver_fullname = db.Column(db.String(20))
+#     driver_phone_number = db.Column(db.Integer)
+#     truck_reg_number = db.Column(db.String(10))
+

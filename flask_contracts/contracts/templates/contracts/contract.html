@@ -14,9 +14,9 @@
                     {{ form.hidden_tag() }}
                     <div>
                         {{ form.contract_number.label(class="label is-medium pt-2") }}
-                        <div class="control select has-icons-left">
+                        <div class="control has-icons-left">
                             <span class="icon">
-                                <i class="fas fa-user-tag"></i>
+                                <i class="fas fa-pen"></i>
                             </span>
                             {% if form.contract_number.errors %}
                                 {{ form.contract_number(class="input has-icon-left is-danger") }}
@@ -26,7 +26,97 @@
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ form.contract_number(class="select has-icon-left pl-6 ") }}
+                                {{ form.contract_number(class="input has-icon-left") }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div>
+                        {{ form.date_of_delivery.label(class="label is-medium pt-2") }}
+                        <div class="control select has-icons-left">
+                            <span class="icon">
+                                <i class="fas fa-pen"></i>
+                            </span>
+                            {% if form.date_of_delivery.errors %}
+                                {{ form.date_of_delivery(class="select has-icon-left is-danger") }}
+                                <div class="help is-danger">
+                                    {% for error in form.date_of_delivery.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.date_of_delivery(class="input has-icon-left") }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div>
+                        {{ form.pallets_position.label(class="label is-medium pt-2") }}
+                        <div class="control has-icons-left">
+                            <span class="icon">
+                                <i class="fas fa-pen"></i>
+                            </span>
+                            {% if form.pallets_position.errors %}
+                                {{ form.pallets_position(class="input has-icon-left is-danger") }}
+                                <div class="help is-danger">
+                                    {% for error in form.pallets_position.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.pallets_position(class="input has-icon-left", min="0", max="99", value="0") }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div>
+                        {{ form.pallets_planned.label(class="label is-medium pt-2") }}
+                        <div class="control has-icons-left">
+                            <span class="icon">
+                                <i class="fas fa-pen"></i>
+                            </span>
+                            {% if form.pallets_planned.errors %}
+                                {{ form.pallets_planned(class="input has-icon-left is-danger") }}
+                                <div class="help is-danger">
+                                    {% for error in form.pallets_planned.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.pallets_planned(class="input has-icon-left", min="0", max="99", value="0") }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div>
+                        {{ form.pallets_actual.label(class="label is-medium pt-2") }}
+                        <div class="control has-icons-left">
+                            <span class="icon">
+                                <i class="fas fa-pen"></i>
+                            </span>
+                            {% if form.pallets_actual.errors %}
+                                {{ form.pallets_actual(class="input has-icon-left is-danger") }}
+                                <div class="help is-danger">
+                                    {% for error in form.pallets_actual.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.pallets_actual(class="input has-icon-left", min="0", max="99", value="0") }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div>
+                        {{ form.warehouse.label(class="label is-medium pt-2") }}
+                        <div class="control has-icons-left">
+                            <span class="icon">
+                                <i class="fas fa-pen"></i>
+                            </span>
+                            {% if form.warehouse.errors %}
+                                {{ form.warehouse(class="input has-icon-left is-danger") }}
+                                <div class="help is-danger">
+                                    {% for error in form.warehouse.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.warehouse(class="input has-icon-left") }}
                             {% endif %}
                         </div>
                     </div>

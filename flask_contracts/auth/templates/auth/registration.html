@@ -19,9 +19,9 @@
                                 <i class="fas fa-user-tag"></i>
                             </span>
                             {% if form.role.errors %}
-                                {{ form.username(class="input has-icon-left is-danger") }}
+                                {{ form.role(class="input has-icon-left is-danger") }}
                                 <div class="help is-danger">
-                                    {% for error in form.username.errors %}
+                                    {% for error in form.role.errors %}
                                         {{ error }}
                                     {% endfor %}
                                 </div>
