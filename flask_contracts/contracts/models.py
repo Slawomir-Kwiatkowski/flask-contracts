@@ -7,22 +7,23 @@ class Contract(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     status = db.Column(db.String(10), nullable=False, default='open')
-    conctract_number = db.Column(db.String(20), nullable=False)
-    contractor_number = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    customer_number = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    contract_number = db.Column(db.String(20), nullable=False)
+    contractor_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    customer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     date_of_order = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     date_of_delivery = db.Column(db.DateTime, nullable=False)
-    pallets = db.Column(db.Integer, nullable=False)
-    pallet_position = db.Column(db.Integer, nullable=False)
+    pallets_position = db.Column(db.Integer, nullable=False)
+    pallets_planned = db.Column(db.Integer, nullable=False)
+    pallets_actual = db.Column(db.Integer, nullable=False)    
     warehouse = db.Column(db.String(10), nullable=False)
     
 
-# class Booking(db.Model):
-#     '''Model of booking for a contract'''
+class Booking(db.Model):
+    '''Model of booking for a conctract'''
     
-#     id = db.Column(db.Integer, primary_key=True)
-#     id_contract = db.Column(db.Integer, db.ForeignKey(contract.id), nullable=False)
-#     driver_fullname = db.Column(db.String(20))
-#     driver_phone_number = db.Column(db.Integer)
-#     truck_reg_number = db.Column(db.String(10))
+    id = db.Column(db.Integer, primary_key=True)
+    id_contract = db.Column(db.Integer, db.ForeignKey(Contract.id), nullable=False)
+    driver_fullname = db.Column(db.String(20))
+    driver_phone_number = db.Column(db.Integer)
+    truck_reg_number = db.Column(db.String(10))
 

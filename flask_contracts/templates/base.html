@@ -100,26 +100,32 @@
             </div>
           </div>
         </nav>
+        
       </section>
       
     <section class="hero-body has-background-grey-lighter">
       <div class="container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-            <ul class=flashes>
-              {% for category, message in messages %}
-                <li class="notification is-light is-{{category}}">
-                    <strong>{{ message }}</strong>
-                </li>
-              {% endfor %}
-            </ul></br>
-        {% endif %}
-        {% endwith %}
+        
         {% block content %}
         {% endblock %}
       </div>
     </section>
+    <section class="hero-foot has-background-info-dark">
+      <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <ul>
+            {% for message in messages %}
+              <li>
+                  <strong class="has-text-white is-size-5">{{ message }}</strong>
+              </li>
+            {% endfor %}
+          </ul></br>
+      {% endif %}
+      {% endwith %}
+      </div>
     </section>
+  </section>
     
   </body>
 </html>

@@ -7,7 +7,7 @@ from flask_contracts.auth.models import User
 class UserLoginForm(FlaskForm):
     username = StringField('Username',
             validators=[DataRequired(), Length(min=2, max=10)],
-            description='Enter your username')
+            description='Enter your username', render_kw={'autofocus': True})
     password = PasswordField('Password',
             validators=[DataRequired()],
             description='Enter your password')

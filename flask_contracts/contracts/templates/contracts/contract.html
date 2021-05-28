@@ -31,14 +31,32 @@
                         </div>
                     </div>
                     <div>
+                        {{ form.contractors.label(class="label is-medium pt-2") }}
+                        <div class="control select has-icons-left">
+                            <span class="icon">
+                                <i class="fas fa-pen"></i>
+                            </span>
+                            {% if form.contractors.errors %}
+                                {{ form.contractors(class="select control has-icon-left is-danger") }}
+                                <div class="help is-danger">
+                                    {% for error in form.contractors.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.contractors(class="input has-icon-left") }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div>
                         {{ form.date_of_delivery.label(class="label is-medium pt-2") }}
                         <div class="control select has-icons-left">
                             <span class="icon">
                                 <i class="fas fa-pen"></i>
                             </span>
                             {% if form.date_of_delivery.errors %}
-                                {{ form.date_of_delivery(class="select has-icon-left is-danger") }}
-                                <div class="help is-danger">
+                                {{ form.date_of_delivery(class="input has-icon-left is-danger") }}
+                                <div class="help is-danger pb-5">
                                     {% for error in form.date_of_delivery.errors %}
                                         {{ error }}
                                     {% endfor %}
@@ -49,7 +67,7 @@
                         </div>
                     </div>
                     <div>
-                        {{ form.pallets_position.label(class="label is-medium pt-2") }}
+                        {{ form.pallets_position.label(class="label is-medium pt-4") }}
                         <div class="control has-icons-left">
                             <span class="icon">
                                 <i class="fas fa-pen"></i>
