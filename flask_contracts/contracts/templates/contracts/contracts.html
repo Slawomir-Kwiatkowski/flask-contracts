@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="columns is-centered">
+        <div class="column">
+            <table class="table is-bordered is-striped is-fullwidth is-hoverable">
+                <thead>
+                    <tr>
+                        <th class="is-info">#</th>
+                        {% for item in header %}
+                            <th class="is-info">
+                                {{ item }}
+                            </th>
+                        {% endfor %}
+                        <th class="is-info has-text-centered">
+                            <span class="icon is-small">
+                                <i class="fas fa-wrench"></i>
+                            </span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for contract in contracts %}
+                        <tr>
+                            <td>{{  loop.index  }}</td>
+                            {% for item in header %}
+                                <td>
+                                    {{ contract[item] }}
+                                </td>
+                            {% endfor %}
+                            <td>
+                                <div class="field is-grouped">
+                                    <p class="control">
+                                       <form action="{{ url_for('contracts.get_contract', id=contract.id) }}">
+                                            <button class="button mr-2" title="Edit Contract">
+                                                <span class="icon is-small">
+                                                  <i class="fas fa-edit"></i>
+                                                </span>
+                                            </button>
+                                        </form>
+                                        {% if current_user.role=='contractor' %}
+                                            <button class="button mr-2" title="Delete Contract" disabled>
+                                        {% else %}
+                                            <button class="button mr-2" title="Delete Contract">
+                                        {% endif %}
+                                            
+                                                <span class="icon is-small">
+                                                <i class="fas fa-trash-alt"></i>
+                                                </span>
+                                            </button>
+                                    </p>
+                                </div>
+                                
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

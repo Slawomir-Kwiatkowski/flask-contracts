@@ -18,17 +18,19 @@ class ContractForm(FlaskForm):
              validators=[DataRequired(), Length(min=3, max=15)])
     submit = SubmitField('Send')
 
-    def validate_contract_number(self, contract_number):
-        ''' Throws ValidationError if user has created contracts with the same number'''
-        contract = Contract.query.filter_by(
-            customer_id=current_user.id).filter_by(
-                contract_number=contract_number.data).first()
-        if contract: raise ValidationError('This contract number is already in database')
+    # def validate_contract_number(self, contract_number):
+    #     pass
+        # ''' Throws ValidationError if user has created contracts with the same number'''
+        # contract = Contract.query.filter_by(
+        #     customer_id=current_user.id).filter_by(
+        #         contract_number=contract_number.data).first()
+        # if contract: raise ValidationError('This contract number is already in database')
 
-    def validate_date_of_delivery(self, date_of_delivery):
-        ''' Throws ValidationError if date_of_delivery is less than tomorrow'''
-        if date_of_delivery.data <= datetime.utcnow().date():
-            raise ValidationError('Wrong date')
+    # def validate_date_of_delivery(self, date_of_delivery):
+    #     pass
+        # ''' Throws ValidationError if date_of_delivery is less than today'''
+        # if date_of_delivery.data < datetime.utcnow():
+        #     raise ValidationError('Wrong date')
 
 class CustomersForm(FlaskForm):
     # date_reg = DateField('Date', validators=[DataRequired()])

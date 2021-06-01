@@ -13,7 +13,7 @@
                 <form method="POST" action="">
                     {{ form.hidden_tag() }}
                     <div>
-                        {{ form.contract_number.label(class="label is-medium pt-2") }}
+                        {{ form.contract_number.label(class="label is-medium pt-4") }}
                         <div class="control has-icons-left">
                             <span class="icon">
                                 <i class="fas fa-pen"></i>
@@ -31,13 +31,13 @@
                         </div>
                     </div>
                     <div>
-                        {{ form.contractors.label(class="label is-medium pt-2") }}
+                        {{ form.contractors.label(class="label is-medium pt-4") }}
                         <div class="control select has-icons-left">
                             <span class="icon">
                                 <i class="fas fa-pen"></i>
                             </span>
                             {% if form.contractors.errors %}
-                                {{ form.contractors(class="select control has-icon-left is-danger") }}
+                                {{ form.contractors(class="input has-icon-left is-danger") }}
                                 <div class="help is-danger">
                                     {% for error in form.contractors.errors %}
                                         {{ error }}
@@ -49,7 +49,7 @@
                         </div>
                     </div>
                     <div>
-                        {{ form.date_of_delivery.label(class="label is-medium pt-2") }}
+                        {{ form.date_of_delivery.label(class="label is-medium pt-4") }}
                         <div class="control select has-icons-left">
                             <span class="icon">
                                 <i class="fas fa-pen"></i>
@@ -80,12 +80,12 @@
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ form.pallets_position(class="input has-icon-left", min="0", max="99", value="0") }}
+                                {{ form.pallets_position(class="input has-icon-left", min="1", max="99", value=form.pallets_position.data) }}
                             {% endif %}
                         </div>
                     </div>
                     <div>
-                        {{ form.pallets_planned.label(class="label is-medium pt-2") }}
+                        {{ form.pallets_planned.label(class="label is-medium pt-4") }}
                         <div class="control has-icons-left">
                             <span class="icon">
                                 <i class="fas fa-pen"></i>
@@ -98,12 +98,12 @@
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ form.pallets_planned(class="input has-icon-left", min="0", max="99", value="0") }}
+                                {{ form.pallets_planned(class="input has-icon-left", min="1", max="99", value=form.pallets_planned.data) }}
                             {% endif %}
                         </div>
                     </div>
                     <div>
-                        {{ form.pallets_actual.label(class="label is-medium pt-2") }}
+                        {{ form.pallets_actual.label(class="label is-medium pt-4") }}
                         <div class="control has-icons-left">
                             <span class="icon">
                                 <i class="fas fa-pen"></i>
@@ -116,12 +116,12 @@
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ form.pallets_actual(class="input has-icon-left", min="0", max="99", value="0") }}
+                                {{ form.pallets_actual(class="input has-icon-left", min="1", max="99", value=form.pallets_actual.data) }}
                             {% endif %}
                         </div>
                     </div>
                     <div>
-                        {{ form.warehouse.label(class="label is-medium pt-2") }}
+                        {{ form.warehouse.label(class="label is-medium pt-4") }}
                         <div class="control has-icons-left">
                             <span class="icon">
                                 <i class="fas fa-pen"></i>
