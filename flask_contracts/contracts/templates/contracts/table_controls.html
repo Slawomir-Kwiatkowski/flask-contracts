@@ -1,0 +1,61 @@
+<div class="columns mb-2">
+    <form action="{{ url_for('contracts.contracts') }}" method="GET" name="table_controls" id="table_controls">
+        <div class="field has-addons">
+            <p class="control">
+                {% if contracts.has_prev %}
+                    <button class="button is-small is-rounded py-4">
+                {% else %}
+                    <button class="button is-small is-rounded py-4" type="submit" disabled>
+                {% endif %}
+                <span class="icon is-small">
+                  <i class="fas fa-chevron-left"></i>
+                </span>
+                <a href="{{ url_for('contracts.contracts', page=contracts.prev_num, per_page=contracts.per_page) }}" formmethod="GET">PREV</a>
+              </button>
+            </p>
+            <p class="control has-background-white mx-1 px-2 pt-1 is-size-6">
+                Page: {{ contracts.page }}
+            </p>
+            <p class="control">
+                {% if contracts.has_next %}
+                    <button class="button is-small is-rounded py-4">
+                        <a href="{{ url_for('contracts.contracts', page=contracts.next_num, per_page=contracts.per_page) }}" formmethod="GET">NEXT</a>
+                {% else %}
+                    <button class="button is-small is-rounded py-4" disabled> 
+                        <a href="#" formmethod="GET"></a>NEXT</a>
+                {% endif %}
+                <span class="icon is-small">
+                  <i class="fas fa-chevron-right"></i>
+                </span>
+              </button>
+            </p>
+            <p class="control has-background-white ml-1 px-2 pt-1 is-size-6">
+                <label>per page:</label>
+            </p>
+            <p class="control has-background-white pr-2 is-size-6">
+                <Select class="is-size-6 my-1" onchange="table_controls.submit()" name="per_page">
+                    {% if contracts.per_page == 5 %}
+                        <option selected>5</option>
+                    {% else %}
+                        <option>5</option>
+                    {% endif %}
+                    {% if contracts.per_page == 10 %}
+                        <option selected>10</option>
+                    {% else %}
+                        <option>10</option>
+                    {% endif %}
+                    {% if contracts.per_page == 15 %}
+                        <option selected>15</option>
+                    {% else %}
+                        <option>15</option>
+                    {% endif %}
+                    {% if contracts.per_page == 20 %}
+                        <option selected>20</option>
+                    {% else %}
+                        <option>20</option>
+                    {% endif %}
+                </select>
+            </p>
+        </div>
+    </form>
+</div>

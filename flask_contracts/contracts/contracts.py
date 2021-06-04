@@ -53,15 +53,23 @@ def get_customer():
     form.customers.choices = customers_list
     return render_template('customers.html', title='Customers', form=form)
 
-@bp.route('/contract')
+@bp.route('/contract', methods=['GET'])
 @login_required
-def contracts():
+def contracts(page=1, per_page=5):
+    if request.args.get("page"):
+        page = int(request.args.get("page"))
+    if request.args.get("per_page"):
+        per_page = int(request.args.get("per_page"))
     columns = [m.key for m in Contract.__table__.columns]
     if current_user.role == 'customer':
-        result = Contract.query.filter_by(customer_id=current_user.id).all()
+        # result = Contract.query.filter_by(customer_id=current_user.id).all()
+        result = Contract.query.filter_by(
+            customer_id=current_user.id).filter(
+                Contract.status!='cancelled').order_by(
+                    Contract.id.desc()).paginate(page=page, per_page=per_page)
     elif current_user.role == 'contractor':
         result = Contract.query.filter_by(contractor_id=current_user.id).all()
-    result = sorted(result, key=lambda x: x.id, reverse=True)
+    # result = sorted(result, key=lambda x: x.id, reverse=True)
     return render_template('contracts.html', title='Contracts', header=columns, contracts=result)
 
 @bp.route('/contract/<int:id>', methods=['GET', 'POST'])
@@ -93,4 +101,13 @@ def get_contract(id):
     form.pallets_actual.data = result.pallets_planned
     form.warehouse.data = result.warehouse
     return render_template('contract.html', title='Contract', form=form)
+    
+
+@bp.route('/contract/<int:id>/cancel', methods=['POST'])
+@login_required
+def cancel_contract(id):
+    result = Contract.query.get(id)
+    result.status = 'cancelled'
+    db.session.commit()
+    return redirect(url_for('contracts.contracts'))
     

@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
+    {% include 'table_controls.html' %} 
+
     <div class="columns is-centered">
         <div class="column">
             <table class="table is-bordered is-striped is-fullwidth is-hoverable">
@@ -20,7 +22,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for contract in contracts %}
+                    {% for contract in contracts.items %}
                         <tr>
                             <td>{{  loop.index  }}</td>
                             {% for item in header %}
@@ -39,18 +41,18 @@
                                             </button>
                                         </form>
                                         {% if current_user.role=='contractor' %}
-                                            <button class="button mr-2" title="Delete Contract" disabled>
+                                            <button class="button mr-2" title="Cancel Contract" disabled>
                                         {% else %}
-                                            <button class="button mr-2" title="Delete Contract">
+                                                {% include 'modal.html' %} 
+                                                <button class="button mr-2 modal-button" data-target="modal{{contract.id}}"  title="Cancel Contract">
                                         {% endif %}
                                             
-                                                <span class="icon is-small">
-                                                <i class="fas fa-trash-alt"></i>
-                                                </span>
-                                            </button>
+                                                    <span class="icon is-small">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </span>
+                                                </button>
                                     </p>
                                 </div>
-                                
                             </td>
                         </tr>
                     {% endfor %}

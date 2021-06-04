@@ -13,6 +13,7 @@
     </title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <link rel="stylesheet" href="../static/main.css">
+    <script src="../static/main.js"></script>
   </head>
   <body>
     <section class="hero is-fullheight is-light">
@@ -43,15 +44,15 @@
         
               <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link">
-                  More
+                  Contracts
                 </a>
         
                 <div class="navbar-dropdown">
-                  <a class="navbar-item">
-                    About
+                  <a class="navbar-item" href="{{ url_for('contracts.new_contract') }}">
+                    New Contract
                   </a>
-                  <a class="navbar-item">
-                    Jobs
+                  <a class="navbar-item" href="{{ url_for('contracts.contracts') }}">
+                    All Contracts
                   </a>
                   <a class="navbar-item">
                     Contact
@@ -102,7 +103,7 @@
         
       </section>
       
-    <section class="hero-body has-background-grey-lighter">
+    <section class="hero-body has-background-grey-lighter is-align-items-stretch">
       <div class="container">
         
         {% block content %}
@@ -113,10 +114,10 @@
       <div class="container">
         {% with messages = get_flashed_messages() %}
         {% if messages %}
-          <ul>
+          <ul class="mt-4">
             {% for message in messages %}
               <li>
-                  <strong class="has-text-white is-size-5">{{ message }}</strong>
+                  <p class="has-text-white is-size-6">{{ message }}</p>
               </li>
             {% endfor %}
           </ul></br>
