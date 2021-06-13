@@ -1,0 +1,9 @@
+.booking {
+    width:100px;
+    height:300px;
+    border: solid 1px gray;
+    margin: 1px;
+    overflow-y:scroll;
+    padding-left: 1px;
+    padding-top: 5px;
+}

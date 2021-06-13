@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="columns is-centered">
+        <div class="column is-4">
+            <div class="box has-background-light">
+                <p class="title has-text-info is-3">
+                    Booking
+                    <span class="icon is-pulled-right">
+                        <i class="fas fa-lg mt-4 mr-4 fa-edit"></i>
+                    </span>
+                </p>
+                <form method="POST" action="">
+                {{ form.hidden_tag() }}
+                    <div class="columns is-vcentered">
+                        <div class="column">
+                            <div class="booking mt-2">
+                                {% for subfield in form.booking_time %}
+                                    <div class="control">
+                                        {{ subfield }}
+                                        {{ subfield.label }}
+                                    </div>
+                                {% endfor  %}
+                                
+                            </div>
+                            <div class="help is-danger">
+                                {% for error in form.booking_time.errors %}
+                                    {{ error }}
+                                {% else %}
+                                    <br>
+                                {% endfor %}
+                            </div>
+                            <div>
+                                {{ form.submit(class="button is primary mt-4 is-info") }}
+                            </div>
+                        </div>
+                        
+                        <div class="column is-8">
+                            <div>
+                                {{ form.driver_full_name.label(class="label is-small pt-2") }}
+                                <div class="control has-icons-left">
+                                    <span class="icon">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </span>
+                                    {% if form.driver_full_name.errors %}
+                                        {{ form.driver_full_name(class="input has-icon-left is-danger") }}
+                                        <div class="help is-danger">
+                                            {% for error in form.driver_full_name.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.driver_full_name(class="input has-icon-left") }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div>
+                                {{ form.driver_phone_number.label(class="label is-small pt-2") }}
+                                <div class="control has-icons-left">
+                                    <span class="icon">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </span>
+                                    {% if form.driver_phone_number.errors %}
+                                        {{ form.driver_phone_number(class="input has-icon-left is-danger") }}
+                                        <div class="help is-danger">
+                                            {% for error in form.driver_phone_number.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.driver_phone_number(class="input has-icon-left") }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div>
+                                {{ form.truck_reg_number.label(class="label is-small pt-2") }}
+                                <div class="control has-icons-left">
+                                    <span class="icon">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </span>
+                                    {% if form.truck_reg_number.errors %}
+                                        {{ form.truck_reg_number(class="input has-icon-left is-danger") }}
+                                        <div class="help is-danger">
+                                            {% for error in form.truck_reg_number.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.truck_reg_number(class="input has-icon-left") }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -20,10 +20,10 @@ class Contract(db.Model):
 
 class Booking(db.Model):
     '''Model of booking for a conctract'''
-    
     id = db.Column(db.Integer, primary_key=True)
-    id_contract = db.Column(db.Integer, db.ForeignKey(Contract.id), nullable=False)
-    driver_fullname = db.Column(db.String(20))
-    driver_phone_number = db.Column(db.Integer)
+    booking_time = db.Column(db.String(5), nullable=False)
+    contract_id = db.Column(db.Integer, db.ForeignKey(Contract.id), nullable=False)
+    driver_full_name = db.Column(db.String(20), nullable=False)
+    driver_phone_number = db.Column(db.Integer, nullable=False)
     truck_reg_number = db.Column(db.String(10))
 
