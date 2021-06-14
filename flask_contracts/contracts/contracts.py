@@ -83,13 +83,16 @@ def get_contract(id):
     contractors_list = [(i.id, i.username) for i in contractors_group]
     form.contractors.choices = contractors_list     # all available contractors
     if form.validate_on_submit():
-        result.contract_number=form.contract_number.data
-        result.contractor_id = form.contractors.data    # selected contractor
-        result.date_of_delivery = form.date_of_delivery.data
-        result.pallets_position = form.pallets_position.data
-        result.pallets_planned = form.pallets_planned.data
-        result.pallets_actual = form.pallets_actual.data
-        result.warehouse = form.warehouse.data
+        if current_user.role == 'contractor':
+            result.pallets_position = form.pallets_position.data
+            result.pallets_actual = form.pallets_actual.data
+        else:
+            result.status = 'open'
+            result.contract_number=form.contract_number.data
+            result.contractor_id = form.contractors.data    # selected contractor
+            result.date_of_delivery = form.date_of_delivery.data
+            result.pallets_planned = form.pallets_planned.data
+            result.warehouse = form.warehouse.data
         db.session.commit()
         if current_user.role=='contractor':
             return redirect(url_for('contracts.new_booking', id=id))
@@ -102,7 +105,7 @@ def get_contract(id):
     form.date_of_delivery.data = result.date_of_delivery
     form.pallets_position.data = result.pallets_position
     form.pallets_planned.data = result.pallets_planned
-    form.pallets_actual.data = result.pallets_planned
+    form.pallets_actual.data = result.pallets_actual
     form.warehouse.data = result.warehouse
     return render_template('contract.html', title='Contract', form=form)
     

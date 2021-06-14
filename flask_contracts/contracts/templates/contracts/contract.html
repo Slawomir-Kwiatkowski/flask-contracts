@@ -12,132 +12,162 @@
                 </p>
                 <form method="POST" action="">
                     {{ form.hidden_tag() }}
-                    <div>
-                        {{ form.contract_number.label(class="label is-small") }}
-                        <div class="control has-icons-left">
-                            <span class="icon">
-                                <i class="fas fa-pen"></i>
-                            </span>
-                            {% if form.contract_number.errors %}
-                                {{ form.contract_number(class="input has-icon-left is-danger") }}
-                                <div class="help is-danger">
-                                    {% for error in form.contract_number.errors %}
-                                        {{ error }}
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                {{ form.contract_number(class="input has-icon-left") }}
-                            {% endif %}
+                    {% if current_user.role == 'contractor' %}
+                        <fieldset disabled>
+                    {% endif %}
+                        <div>
+                            {{ form.contract_number.label(class="label is-small") }}
+                            <div class="control has-icons-left">
+                                <span class="icon">
+                                    <i class="fas fa-pen"></i>
+                                </span>
+                                {% if form.contract_number.errors %}
+                                    {{ form.contract_number(class="input has-icon-left is-danger") }}
+                                    <div class="help is-danger">
+                                        {% for error in form.contract_number.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.contract_number(class="input has-icon-left") }}
+                                {% endif %}
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        {{ form.contractors.label(class="label is-small pt-3") }}
-                        <div class="control select has-icons-left">
-                            <span class="icon">
-                                <i class="fas fa-pen"></i>
-                            </span>
-                            {% if form.contractors.errors %}
-                                {{ form.contractors(class="input has-icon-left is-danger") }}
-                                <div class="help is-danger">
-                                    {% for error in form.contractors.errors %}
-                                        {{ error }}
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                {{ form.contractors(class="input has-icon-left") }}
-                            {% endif %}
+                        <div>
+                            {{ form.contractors.label(class="label is-small pt-3") }}
+                            <div class="control select has-icons-left">
+                                <span class="icon">
+                                    <i class="fas fa-pen"></i>
+                                </span>
+                                {% if form.contractors.errors %}
+                                    {{ form.contractors(class="input has-icon-left is-danger") }}
+                                    <div class="help is-danger">
+                                        {% for error in form.contractors.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.contractors(class="input has-icon-left") }}
+                                {% endif %}
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        {{ form.date_of_delivery.label(class="label is-small pt-3") }}
-                        <div class="control select has-icons-left">
-                            <span class="icon">
-                                <i class="fas fa-pen"></i>
-                            </span>
-                            {% if form.date_of_delivery.errors %}
-                                {{ form.date_of_delivery(class="input has-icon-left is-danger") }}
-                                <div class="help is-danger pb-5">
-                                    {% for error in form.date_of_delivery.errors %}
-                                        {{ error }}
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                {{ form.date_of_delivery(class="input has-icon-left") }}
-                            {% endif %}
+                        <div>
+                            {{ form.date_of_delivery.label(class="label is-small pt-3") }}
+                            <div class="control select has-icons-left">
+                                <span class="icon">
+                                    <i class="fas fa-pen"></i>
+                                </span>
+                                {% if form.date_of_delivery.errors %}
+                                    {{ form.date_of_delivery(class="input has-icon-left is-danger") }}
+                                    <div class="help is-danger pb-5">
+                                        {% for error in form.date_of_delivery.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.date_of_delivery(class="input has-icon-left") }}
+                                {% endif %}
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        {{ form.pallets_position.label(class="label is-small pt-3") }}
-                        <div class="control has-icons-left">
-                            <span class="icon">
-                                <i class="fas fa-pen"></i>
-                            </span>
-                            {% if form.pallets_position.errors %}
-                                {{ form.pallets_position(class="input has-icon-left is-danger") }}
-                                <div class="help is-danger">
-                                    {% for error in form.pallets_position.errors %}
-                                        {{ error }}
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                {{ form.pallets_position(class="input has-icon-left", min="1", max="99", value=form.pallets_position.data) }}
-                            {% endif %}
+                    {% if current_user.role == 'contractor' %}
+                        </fieldset>
+                    {% endif %}
+                    {% if current_user.role == 'customer' %}
+                        <fieldset disabled>
+                    {% endif %}
+                        <div>
+                            {{ form.pallets_position.label(class="label is-small pt-3") }}
+                            <div class="control has-icons-left">
+                                <span class="icon">
+                                    <i class="fas fa-pen"></i>
+                                </span>
+                                {% if form.pallets_position.errors %}
+                                    {{ form.pallets_position(class="input has-icon-left is-danger") }}
+                                    <div class="help is-danger">
+                                        {% for error in form.pallets_position.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.pallets_position(class="input has-icon-left", min="1", max="99", value=form.pallets_position.data) }}
+                                {% endif %}
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        {{ form.pallets_planned.label(class="label is-small pt-3") }}
-                        <div class="control has-icons-left">
-                            <span class="icon">
-                                <i class="fas fa-pen"></i>
-                            </span>
-                            {% if form.pallets_planned.errors %}
-                                {{ form.pallets_planned(class="input has-icon-left is-danger") }}
-                                <div class="help is-danger">
-                                    {% for error in form.pallets_planned.errors %}
-                                        {{ error }}
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                {{ form.pallets_planned(class="input has-icon-left", min="1", max="99", value=form.pallets_planned.data) }}
-                            {% endif %}
+                    {% if current_user.role == 'customer' %}
+                        </fieldset>
+                    {% endif %}
+                    {% if current_user.role == 'contractor' %}
+                        <fieldset disabled>
+                    {% endif %}
+                        <div>
+                            {{ form.pallets_planned.label(class="label is-small pt-3") }}
+                            <div class="control has-icons-left">
+                                <span class="icon">
+                                    <i class="fas fa-pen"></i>
+                                </span>
+                                {% if form.pallets_planned.errors %}
+                                    {{ form.pallets_planned(class="input has-icon-left is-danger") }}
+                                    <div class="help is-danger">
+                                        {% for error in form.pallets_planned.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.pallets_planned(class="input has-icon-left", min="1", max="99", value=form.pallets_planned.data) }}
+                                {% endif %}
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        {{ form.pallets_actual.label(class="label is-small pt-3") }}
-                        <div class="control has-icons-left">
-                            <span class="icon">
-                                <i class="fas fa-pen"></i>
-                            </span>
-                            {% if form.pallets_actual.errors %}
-                                {{ form.pallets_actual(class="input has-icon-left is-danger") }}
-                                <div class="help is-danger">
-                                    {% for error in form.pallets_actual.errors %}
-                                        {{ error }}
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                {{ form.pallets_actual(class="input has-icon-left", min="1", max="99", value=form.pallets_actual.data) }}
-                            {% endif %}
+                    {% if current_user.role == 'contractor' %}
+                        </fieldset>
+                    {% endif %}
+                    {% if current_user.role == 'customer' %}
+                        <fieldset disabled>
+                    {% endif %}
+                        <div>
+                            {{ form.pallets_actual.label(class="label is-small pt-3") }}
+                            <div class="control has-icons-left">
+                                <span class="icon">
+                                    <i class="fas fa-pen"></i>
+                                </span>
+                                {% if form.pallets_actual.errors %}
+                                    {{ form.pallets_actual(class="input has-icon-left is-danger") }}
+                                    <div class="help is-danger">
+                                        {% for error in form.pallets_actual.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.pallets_actual(class="input has-icon-left", min="1", max="99", value=form.pallets_actual.data) }}
+                                {% endif %}
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        {{ form.warehouse.label(class="label is-small pt-3") }}
-                        <div class="control has-icons-left">
-                            <span class="icon">
-                                <i class="fas fa-pen"></i>
-                            </span>
-                            {% if form.warehouse.errors %}
-                                {{ form.warehouse(class="input has-icon-left is-danger") }}
-                                <div class="help is-danger">
-                                    {% for error in form.warehouse.errors %}
-                                        {{ error }}
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                {{ form.warehouse(class="input has-icon-left") }}
-                            {% endif %}
+                    {% if current_user.role == 'customer' %}
+                        </fieldset>
+                    {% endif %}
+                    {% if current_user.role == 'contractor' %}
+                        <fieldset disabled>
+                    {% endif %}
+                        <div>
+                            {{ form.warehouse.label(class="label is-small pt-3") }}
+                            <div class="control has-icons-left">
+                                <span class="icon">
+                                    <i class="fas fa-pen"></i>
+                                </span>
+                                {% if form.warehouse.errors %}
+                                    {{ form.warehouse(class="input has-icon-left is-danger") }}
+                                    <div class="help is-danger">
+                                        {% for error in form.warehouse.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.warehouse(class="input has-icon-left") }}
+                                {% endif %}
+                            </div>
                         </div>
-                    </div>
+                    {% if current_user.role == 'contractor' %}
+                        </fieldset>
+                    {% endif %}
                     <div>
                         {{ form.submit(class="button is primary mt-4 is-info") }}
                     </div>

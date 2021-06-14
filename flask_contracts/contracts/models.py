@@ -12,9 +12,9 @@ class Contract(db.Model):
     customer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     date_of_order = db.Column(db.Date, nullable=False, default=datetime.utcnow)
     date_of_delivery = db.Column(db.Date, nullable=False)
-    pallets_position = db.Column(db.Integer, nullable=False)
+    pallets_position = db.Column(db.Integer)
     pallets_planned = db.Column(db.Integer, nullable=False)
-    pallets_actual = db.Column(db.Integer, nullable=False)    
+    pallets_actual = db.Column(db.Integer)    
     warehouse = db.Column(db.String(10), nullable=False)
     
 
