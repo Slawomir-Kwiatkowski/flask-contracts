@@ -123,6 +123,15 @@ def cancel_contract(id):
 def new_booking(id):
     form = BookingForm()
     result = Booking.query.filter_by(contract_id=id).first()
+    current_contract = Contract.query.get(id) # returns contract for current booking
+    # filtering by one column gives a list of tuples so I converted it to a list of values
+    contracts = [ids[0] for ids in Contract.query.with_entities(Contract.id).filter_by(
+        date_of_delivery=current_contract.date_of_delivery).filter_by(
+        warehouse=current_contract.warehouse).all()]
+    reserved_booking_time = [times[0] for times in 
+    Booking.query.with_entities(Booking.booking_time).filter(
+        Booking.contract_id.in_(contracts)).all()]
+    # return str(reserved_booking_time)
     if form.validate_on_submit():
         if result:
             result.booking_time = form.booking_time.data
@@ -147,4 +156,4 @@ def new_booking(id):
         form.driver_full_name.data = result.driver_full_name
         form.driver_phone_number.data = result.driver_phone_number
         form.truck_reg_number.data = result.truck_reg_number    
-    return render_template('booking.html', form=form)
+    return render_template('booking.html', form=form, reserved_booking_time=reserved_booking_time)

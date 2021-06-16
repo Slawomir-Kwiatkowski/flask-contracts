@@ -16,10 +16,19 @@
                         <div class="column">
                             <div class="booking mt-2">
                                 {% for subfield in form.booking_time %}
-                                    <div class="control">
-                                        {{ subfield }}
-                                        {{ subfield.label }}
-                                    </div>
+                                    {% if subfield.data is in reserved_booking_time %}
+                                        <fieldset disabled>
+                                            <div class="control">
+                                                {{subfield}}
+                                                {{ subfield.label }}
+                                            </div>
+                                        </fieldset>
+                                    {% else %}
+                                        <div class="control">
+                                            {{ subfield }}
+                                            {{ subfield.label }}
+                                        </div>
+                                    {% endif %}
                                 {% endfor  %}
                                 
                             </div>
