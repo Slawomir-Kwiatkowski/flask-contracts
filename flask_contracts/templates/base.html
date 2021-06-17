@@ -53,7 +53,7 @@
                   <a class="navbar-item" href="{{ url_for('contracts.new_contract') }}">
                     New Contract
                   </a>
-                  <a class="navbar-item" href="{{ url_for('contracts.contracts') }}">
+                  <a class="navbar-item" href="{{ url_for('contracts.contracts', page=session.get('page'), per_page=session.get('per_page')) }}">
                     All Contracts
                   </a>
                   <a class="navbar-item">

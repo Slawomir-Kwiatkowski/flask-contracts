@@ -1,6 +1,6 @@
 from datetime import time, timedelta
 from flask import Blueprint, render_template, redirect, flash
-from flask.globals import request
+from flask.globals import request, session
 from flask.helpers import url_for
 from flask_login import login_required, current_user
 from werkzeug.exceptions import abort
@@ -57,10 +57,12 @@ def get_customer():
 @bp.route('/contract', methods=['GET'])
 @login_required
 def contracts(page=1, per_page=5):
-    if request.args.get("page"):
+    if request.args.get('page'):
         page = int(request.args.get("page"))
-    if request.args.get("per_page"):
-        per_page = int(request.args.get("per_page"))
+        session['page'] = page
+    if request.args.get('per_page'):
+        per_page = int(request.args.get('per_page'))
+        session['per_page'] = per_page
     columns = [m.key for m in Contract.__table__.columns]
     if current_user.role == 'customer':
         result = Contract.query.filter_by(
@@ -124,14 +126,10 @@ def new_booking(id):
     form = BookingForm()
     result = Booking.query.filter_by(contract_id=id).first()
     current_contract = Contract.query.get(id) # returns contract for current booking
-    # filtering by one column gives a list of tuples so I converted it to a list of values
+    # filtering by one column gives a list of tuple(s) so I converted it to a list of values
     contracts = [ids[0] for ids in Contract.query.with_entities(Contract.id).filter_by(
         date_of_delivery=current_contract.date_of_delivery).filter_by(
         warehouse=current_contract.warehouse).all()]
-    reserved_booking_time = [times[0] for times in 
-    Booking.query.with_entities(Booking.booking_time).filter(
-        Booking.contract_id.in_(contracts)).all()]
-    # return str(reserved_booking_time)
     if form.validate_on_submit():
         if result:
             result.booking_time = form.booking_time.data
@@ -150,10 +148,19 @@ def new_booking(id):
         contract = Contract.query.get(id)
         contract.status = 'accepted'
         db.session.commit()
-        return redirect(url_for('contracts.contracts'))
-    if result is not None:   
+        page = session.get('page')
+        per_page = session.get('per_page')
+        return redirect(url_for('contracts.contracts', page=page, per_page=per_page))
+    if result is not None:
+        reserved_booking_time = [times[0] for times in 
+            Booking.query.with_entities(Booking.booking_time).filter(
+            Booking.contract_id.in_(contracts)).all() if times[0]!=result.booking_time]   
         form.booking_time.data = result.booking_time
         form.driver_full_name.data = result.driver_full_name
         form.driver_phone_number.data = result.driver_phone_number
-        form.truck_reg_number.data = result.truck_reg_number    
+        form.truck_reg_number.data = result.truck_reg_number   
+    else:
+        reserved_booking_time = [times[0] for times in 
+            Booking.query.with_entities(Booking.booking_time).filter(
+            Booking.contract_id.in_(contracts)).all()] 
     return render_template('booking.html', form=form, reserved_booking_time=reserved_booking_time)
