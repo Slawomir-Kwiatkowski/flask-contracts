@@ -1,13 +1,16 @@
 from datetime import time, timedelta
 from flask import Blueprint, render_template, redirect, flash
 from flask.globals import request, session
-from flask.helpers import url_for
+from flask.helpers import send_file, url_for
 from flask_login import login_required, current_user
 from werkzeug.exceptions import abort
 from .models import Contract, User, Booking
 from .forms import BookingForm, ContractForm, CustomersForm
 from flask_contracts import db
 from sqlalchemy import desc
+from .utils.utils import get_my_pdf
+from flask import make_response, Response
+from werkzeug.wsgi import FileWrapper
 
 bp = Blueprint('contracts', __name__,
         template_folder='templates/contracts', static_folder='static')
@@ -125,8 +128,8 @@ def cancel_contract(id):
 def new_booking(id):
     form = BookingForm()
     result = Booking.query.filter_by(contract_id=id).first()
-    current_contract = Contract.query.get(id) # returns contract for current booking
-    # filtering by one column gives a list of tuple(s) so I converted it to a list of values
+    current_contract = Contract.query.get(id) # Returns contract for current booking
+    # Filtering by one column gives a list of tuple(s) so I converted it to a list of values
     contracts = [ids[0] for ids in Contract.query.with_entities(Contract.id).filter_by(
         date_of_delivery=current_contract.date_of_delivery).filter_by(
         warehouse=current_contract.warehouse).all()]
@@ -164,3 +167,11 @@ def new_booking(id):
             Booking.query.with_entities(Booking.booking_time).filter(
             Booking.contract_id.in_(contracts)).all()] 
     return render_template('booking.html', form=form, reserved_booking_time=reserved_booking_time)
+
+@bp.route('/get-pdf', methods=['GET'])
+@login_required
+def get_pdf():
+    my_pdf = get_my_pdf()
+    my_pdf.seek(0)
+    return send_file(my_pdf, as_attachment=True, mimetype='application/pdf',
+        attachment_filename='booking.pdf', cache_timeout=0)

@@ -43,7 +43,7 @@
                                         {% if current_user.role=='contractor' %}
                                             <button class="button mr-2" title="Cancel Contract" disabled>
                                         {% else %}
-                                                {% include 'modal.html' %} 
+                                                {% include 'modal_delete.html' %} 
                                                 <button class="button mr-2 modal-button" data-target="modal{{contract.id}}"  title="Cancel Contract">
                                         {% endif %}
                                             
