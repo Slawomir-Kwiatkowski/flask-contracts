@@ -41,16 +41,31 @@
                                             </button>
                                         </form>
                                         {% if current_user.role=='contractor' %}
-                                            <button class="button mr-2" title="Cancel Contract" disabled>
+                                            {% if contract.status == 'accepted' %}
+                                                <form action="{{ url_for('contracts.get_pdf', id=contract.id) }}">
+                                                    <button class="button mr-2" title="Get PDF">
+                                                        <span class="icon is-small">
+                                                        <i class="fas fa-file-pdf"></i>
+                                                        </span>
+                                                    </button>
+                                                </form>
+                                            {% else %}
+                                                <button class="button mr-2" title="Get PDF", disabled>
+                                                        <span class="icon is-small">
+                                                        <i class="fas fa-file-pdf"></i>
+                                                        </span>
+                                                    </button>
+                                            {% endif%}
                                         {% else %}
-                                                {% include 'modal_delete.html' %} 
-                                                <button class="button mr-2 modal-button" data-target="modal{{contract.id}}"  title="Cancel Contract">
+                                            {% include 'modal_delete.html' %} 
+                                            <button class="button mr-2 modal-button" data-target="modal{{contract.id}}"  title="Cancel Contract">
+                                                <span class="icon is-small">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </span>
+                                            </button>
                                         {% endif %}
                                             
-                                                    <span class="icon is-small">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </span>
-                                                </button>
+                                                    
                                     </p>
                                 </div>
                             </td>

@@ -26,8 +26,9 @@ class ContractForm(FlaskForm):
             raise ValidationError('Wrong date')
 
 
-class CustomersForm(FlaskForm):
-    # date_reg = DateField('Date', validators=[DataRequired()])
+class FindContractForm(FlaskForm):
+    contract_number = StringField('Contract Number', 
+        validators=[Optional(), Length(max=20)], render_kw={'autofocus': True})
     customers = SelectField('Customers', coerce=int)
     submit = SubmitField('Choose')
 

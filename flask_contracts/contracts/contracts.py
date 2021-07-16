@@ -1,16 +1,14 @@
-from datetime import time, timedelta
-from flask import Blueprint, render_template, redirect, flash
+from flask import Blueprint, render_template, redirect, flash, current_app
 from flask.globals import request, session
 from flask.helpers import send_file, url_for
 from flask_login import login_required, current_user
 from werkzeug.exceptions import abort
 from .models import Contract, User, Booking
-from .forms import BookingForm, ContractForm, CustomersForm
+from .forms import BookingForm, ContractForm, FindContractForm
 from flask_contracts import db
 from sqlalchemy import desc
-from .utils.utils import get_my_pdf
-from flask import make_response, Response
-from werkzeug.wsgi import FileWrapper
+from .utils.utils import create_pdf
+
 
 bp = Blueprint('contracts', __name__,
         template_folder='templates/contracts', static_folder='static')
@@ -48,14 +46,22 @@ def new_contract():
     return render_template('contract.html', title='Contract', form=form)
 
 
-@bp.route('/customers', methods=['GET', 'POST'])
+@bp.route('/find-contract', methods=['GET', 'POST'])
 @login_required
-def get_customer():
-    form = CustomersForm()
+def find_contract():
+    form = FindContractForm()
     customers_group = User.query.filter_by(role='customer')
     customers_list = [(i.id, i.username) for i in customers_group]
     form.customers.choices = customers_list
-    return render_template('customers.html', title='Customers', form=form)
+    if form.validate_on_submit():
+        contract = Contract.query.filter_by(
+                              contract_number=form.contract_number.data).filter_by(
+                                  customer_id=form.customers.data).first()
+        if contract is not None:
+            return redirect(url_for('contracts.get_contract', id=contract.id))
+        else:
+            flash('No contract with the given criteria')
+    return render_template('find_contract.html', title='Find contract', form=form)
 
 @bp.route('/contract', methods=['GET'])
 @login_required
@@ -119,6 +125,8 @@ def get_contract(id):
 @login_required
 def cancel_contract(id):
     result = Contract.query.get(id)
+    if current_user.id != result.customer_id: 
+        abort(403)
     result.status = 'cancelled'
     db.session.commit()
     return redirect(url_for('contracts.contracts'))
@@ -168,10 +176,22 @@ def new_booking(id):
             Booking.contract_id.in_(contracts)).all()] 
     return render_template('booking.html', form=form, reserved_booking_time=reserved_booking_time)
 
-@bp.route('/get-pdf', methods=['GET'])
+@bp.route('/get-pdf/<int:id>', methods=['GET'])
 @login_required
-def get_pdf():
-    my_pdf = get_my_pdf()
-    my_pdf.seek(0)
-    return send_file(my_pdf, as_attachment=True, mimetype='application/pdf',
+def get_pdf(id):
+    contract = Contract.query.get(id)
+    contractor = User.query.get(contract.contractor_id)
+    booking = Booking.query.filter_by(contract_id=contract.id).first()
+    pdf = create_pdf(booking_no=booking.id,
+                        contractor=contractor.username,
+                        contractor_no=contractor.id,
+                        truck_plate=booking.truck_reg_number,
+                        warehouse=contract.warehouse,
+                        date=contract.date_of_delivery,
+                        time=booking.booking_time,
+                        pallets_pos=contract.pallets_position,
+                        pallets=contract.pallets_actual,
+                        app_path=current_app.instance_path)
+    pdf.seek(0)
+    return send_file(pdf, as_attachment=True, mimetype='application/pdf',
         attachment_filename='booking.pdf', cache_timeout=0)

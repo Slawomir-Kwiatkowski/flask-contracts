@@ -36,7 +36,7 @@
           <div id="navbarBasicExample" class="navbar-menu">
             <div class="navbar-start">
               <a class="navbar-item" href="{{ url_for('main.index') }}">
-                Home
+                News
               </a>
 
               <a class="navbar-item">
@@ -48,20 +48,28 @@
                 <a class="navbar-link">
                   Contracts
                 </a>
-        
                 <div class="navbar-dropdown">
-                  <a class="navbar-item" href="{{ url_for('contracts.new_contract') }}">
-                    New Contract
-                  </a>
+                  {% if current_user.is_authenticated %}
+                    {% if current_user.role == 'customer'%}
+                      <a class="navbar-item" href="{{ url_for('contracts.new_contract') }}">
+                        New Contract
+                      </a>
+                    {% endif %}
+                    {% if current_user.role == 'contractor'%}
+                      <a class="navbar-item" href="{{ url_for('contracts.find_contract') }}">
+                        Find contract
+                      </a>
+                    {% endif %}
+                  {% endif %}
                   <a class="navbar-item" href="{{ url_for('contracts.contracts', page=session.get('page'), per_page=session.get('per_page')) }}">
                     All Contracts
                   </a>
                   <a class="navbar-item">
-                    Contact
+                    Imports
                   </a>
                   <hr class="navbar-divider">
                   <a class="navbar-item">
-                    Report an issue
+                    Plots
                   </a>
                 </div>
               </div>
