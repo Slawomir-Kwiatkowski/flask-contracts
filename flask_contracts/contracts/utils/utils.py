@@ -1,4 +1,3 @@
-from base64 import decode
 from io import BytesIO
 from reportlab.lib.utils import ImageReader
 from reportlab.platypus import Table
@@ -20,8 +19,7 @@ def create_pdf(booking_no,
                 date,
                 time,
                 pallets_pos,
-                pallets,
-                app_path):
+                pallets):
     buffer = BytesIO()
     canvas = Canvas(buffer, pagesize=A4)
     WIDTH, HEIGHT = A4

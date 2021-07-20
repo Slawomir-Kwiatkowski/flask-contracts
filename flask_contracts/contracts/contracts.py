@@ -190,8 +190,7 @@ def get_pdf(id):
                         date=contract.date_of_delivery,
                         time=booking.booking_time,
                         pallets_pos=contract.pallets_position,
-                        pallets=contract.pallets_actual,
-                        app_path=current_app.instance_path)
+                        pallets=contract.pallets_actual)
     pdf.seek(0)
     return send_file(pdf, as_attachment=True, mimetype='application/pdf',
         attachment_filename='booking.pdf', cache_timeout=0)
