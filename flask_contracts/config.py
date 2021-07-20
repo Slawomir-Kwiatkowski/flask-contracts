@@ -19,7 +19,7 @@ class Config:
 
 class ConfigProduction(Config):
     ''' Prodction Config class'''
-    # SECRET_KEY = os.environ('SECRET_KEY')
+    SECRET_KEY = os.environ.get('SECRET_KEY')
     ENV = 'prod'
     DEBUG = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
