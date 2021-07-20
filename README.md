@@ -1,5 +1,5 @@
 # flask-contracts
-The application allows you to manage delivery times to central warehouses and logistics centers. Thanks to the application: downtime is minimized and warehouse operation is optimized, which will reduce costs..
+The application allows you to manage delivery times to central warehouses and logistics centers. Thanks to the application: downtime is minimized and warehouse operation is optimized, which will reduce costs.
 
 Customers and contractors of supplies will be able to log in to the application (verification of the account by e-mail to the address provided).
 
