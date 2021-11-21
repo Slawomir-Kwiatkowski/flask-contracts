@@ -8,4 +8,4 @@ Only customers of deliveries will be able to issue orders, while contractors wil
 
 You can try the app here: https://flask-contracts.herokuapp.com
 
-(In order to be able to create, view and accept contracts you must create an account - respectively the customer or the contractor)
+(In order to be able to create, view and accept contracts you must create an account - respectively the customer or the contractor. Otherwise, these options are hidden from the menu)
